@@ -25,8 +25,7 @@ OBJ=$(subst .c,.o,$(subst source,objetos,$(C_SOURCE)))
 
 FLAGS=-lSDL2  \
       -lGL \
-      -lGLEW \
-      -lfreetype
+      -lGLEW
 
 # Compilador
 CC=gcc
