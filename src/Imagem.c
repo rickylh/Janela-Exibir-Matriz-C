@@ -1,6 +1,6 @@
 #include "Imagem.h"
 
-Imagem* criarImagem(int largura, altura) {
+Imagem* criarImagem(int largura, int altura) {
     int i, j;
     Imagem* img = (Imagem*) malloc (sizeof(Imagem));
     img->largura = largura;
