@@ -40,7 +40,7 @@ CC_FLAGS=-c         \
          -W         \
          -pedantic-errors \
          -pedantic
-#         -std=c++03 \
+         -std=c98 \
 
 # Comando para apagar arquivo não nescessarios
 RM = rm -rf
