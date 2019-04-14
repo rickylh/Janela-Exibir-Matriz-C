@@ -21,7 +21,7 @@ C_SOURCE=$(wildcard ./src/*.c)
 H_SOURCE=$(wildcard ./include/*.h)
 
 # Objetos que serão gerados
-OBJ=$(subst .c,.o,$(subst source,objetos,$(C_SOURCE)))
+OBJ=$(subst .c,.o,$(subst src,objetos,$(C_SOURCE)))
 
 FLAGS=-lSDL2  \
       -lGL \
@@ -30,7 +30,7 @@ FLAGS=-lSDL2  \
 
 # Compilador
 CC=gcc
-INCLUDE=include
+INCLUDE="include"
 
 # Flags para o compilador
 CC_FLAGS=-c         \
