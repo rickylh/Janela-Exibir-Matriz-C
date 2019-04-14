@@ -12,17 +12,19 @@ Imagem* criarImagem(int largura, int altura) {
             img->dados[i][j] = (unsigned char*) malloc(sizeof(char) * 3);
         }
     }
+    return img;
 }
 
 void deletarImagem(Imagem* img) {
     int i, j;
-    for (i = 0; i < largura; i++) {
-        for (j = 0; j < altura; j++) {
+    for (i = 0; i < img->largura; i++) {
+        for (j = 0; j < img->altura; j++) {
             free (img->dados[i][j]);
         }
         free (img->dados[i]);
     }
+    img->altura = 0;
+    img->largura = 0;
     free (img->dados);
     free (img);
 }
-

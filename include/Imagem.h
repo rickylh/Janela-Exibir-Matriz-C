@@ -5,12 +5,12 @@
 #include "stdlib.h"
 
 typedef struct imagem {
-    unsigned char*** datos;
+    unsigned char*** dados;
     int largura;
     int altura;
 } Imagem;
 
-Imagem* criarImagem(int largura, altura);
+Imagem* criarImagem(int largura, int altura);
 void deletarImagem(Imagem* img);
 
 #endif
