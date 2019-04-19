@@ -37,9 +37,8 @@ CC_FLAGS=-c         \
          -g         \
          -Wall      \
          -Wextra    \
-         -W         \
          -pedantic-errors \
-         -pedantic
+         -pedantic \
          -std=c98 \
 
 # Comando para apagar arquivo não nescessarios
