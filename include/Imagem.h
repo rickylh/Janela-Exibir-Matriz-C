@@ -3,14 +3,16 @@
 
 #include "stdio.h"
 #include "stdlib.h"
+#include "time.h"
 
 typedef struct imagem {
     unsigned char*** dados;
-    int largura;
-    int altura;
+    unsigned int largura;
+    unsigned int altura;
 } Imagem;
 
-Imagem* criarImagem(int largura, int altura);
+Imagem* criarImagem(unsigned int largura, unsigned int altura);
 void deletarImagem(Imagem* img);
+void preecherAleatorio(Imagem* img);
 
-#endif
+#endif /* __IMAGEM__ */

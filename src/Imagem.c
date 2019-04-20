@@ -1,7 +1,7 @@
 #include "Imagem.h"
 
-Imagem* criarImagem(int largura, int altura) {
-    int i, j;
+Imagem* criarImagem(unsigned int largura, unsigned int altura) {
+    unsigned int i, j;
     Imagem* img = (Imagem*) malloc (sizeof(Imagem));
     img->largura = largura;
     img->altura = altura;
@@ -10,13 +10,16 @@ Imagem* criarImagem(int largura, int altura) {
         img->dados[i] = (unsigned char**) malloc(sizeof(char*) * altura);
         for (j = 0; j < altura; j++) {
             img->dados[i][j] = (unsigned char*) malloc(sizeof(char) * 3);
+            img->dados[i][j][0] = 100;
+            img->dados[i][j][1] = 100;
+            img->dados[i][j][2] = 100;
         }
     }
     return img;
 }
 
 void deletarImagem(Imagem* img) {
-    int i, j;
+    unsigned int i, j;
     for (i = 0; i < img->largura; i++) {
         for (j = 0; j < img->altura; j++) {
             free (img->dados[i][j]);
@@ -25,6 +28,19 @@ void deletarImagem(Imagem* img) {
     }
     img->altura = 0;
     img->largura = 0;
+    img->dados = NULL;
     free (img->dados);
     free (img);
+}
+
+void preecherAleatorio(Imagem* img) {
+    unsigned int i, j, k;
+    srand(time(NULL));
+    for (i = 0; i < img->largura; i++) {
+        for (j = 0; j < img->altura; j++) {
+            for (k = 0; k < 3; k++) {
+                img->dados[i][j][k] = rand() % 255;
+            }
+        }
+    }
 }
