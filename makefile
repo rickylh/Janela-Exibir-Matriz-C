@@ -88,6 +88,7 @@ lib: diretorios $(OBJ)
 # Recompilar o programa do inicio
 rebuild: clean all
 
+
 install: lib
 	@ sudo cp -p $(LIB_DIR)/lib$(NOME_PROJ).a /usr/local/lib/
 	@ sudo mkdir -p /usr/local/include/$(NOME_PROJ)
