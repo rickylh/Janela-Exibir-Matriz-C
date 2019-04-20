@@ -11,13 +11,13 @@ struct janela {
     GLchar nome[50];
 } janela = {NULL, NULL, NULL, 0, 0, 0, 0, "Janela"};
 
-static GLvoid limparJanela();
-static GLvoid renderizarJanela();
+static GLvoid limparJanela(void);
+static GLvoid renderizarJanela(void);
 static GLvoid criarJanela(int altura, int largura, char* nome);
-static GLvoid verificarEventos();
-static GLvoid deletarJanela();
+static GLvoid verificarEventos(void);
+static GLvoid deletarJanela(void);
 static void* loop(void* varg);
-static GLvoid configurarVersaoOpenGL();
+static GLvoid configurarVersaoOpenGL(void);
 
 static struct {
     GLuint largura;
@@ -27,15 +27,17 @@ static struct {
 } config = {0, 0, NULL, NULL};
 
 /* Iniciar Janela {{{{ */
-GLvoid iniciarJanela(GLuint largura, GLuint altura, GLchar* nome, Imagem* cores) {
+GLint iniciarJanela(GLuint largura, GLuint altura, GLchar* nome, Imagem* cores) {
+    if (janela.executando == 1) {
+        return 0;
+    }
     config.largura = largura;
     config.altura = altura;
     config.nome = nome;
     config.cores = cores;
     janela.executando = 1;
     pthread_t tid;
-    pthread_create(&tid, NULL, loop, (void*) NULL);
-    SDL_Delay(1000);
+    return (!pthread_create(&tid, NULL, loop, (void*) NULL));
 }/*}}}}*/
 /* Loop {{{{ */
 static void* loop(void* varg) {
@@ -82,7 +84,7 @@ static GLvoid criarJanela(int altura, int largura, char* nome) {
     janela.executando = 1;
 }/*}}}}*/
 /* Configurar Versao OpenGL {{{{ */
-static GLvoid configurarVersaoOpenGL() {
+static GLvoid configurarVersaoOpenGL(void) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -90,16 +92,16 @@ static GLvoid configurarVersaoOpenGL() {
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 }/*}}}}*/
 /* Renderizar Janela {{{{ */
-static GLvoid renderizarJanela() {
+static GLvoid renderizarJanela(void) {
 	SDL_GL_SwapWindow(janela.janela);
 }/*}}}}*/
 /* Limpar Janela {{{{ */
-static GLvoid limparJanela() {
+static GLvoid limparJanela(void) {
 	glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }/*}}}}*/
 /* Fechar Janela {{{{ */
-static GLvoid deletarJanela() {
+static GLvoid deletarJanela(void) {
     deletarMatriz();
 	SDL_GL_DeleteContext(*(janela.contexto));
 	SDL_DestroyWindow(janela.janela);
@@ -108,7 +110,7 @@ static GLvoid deletarJanela() {
     free(janela.evento);
 }/*}}}}*/
 /* Verificar Eventos {{{{ */
-static GLvoid verificarEventos() {
+static GLvoid verificarEventos(void) {
 	while (SDL_PollEvent(janela.evento)) {
 		switch (janela.evento->type) {
 		case SDL_QUIT:
@@ -123,10 +125,10 @@ static GLvoid verificarEventos() {
     }
 }/*}}}}*/
 /* Janela Aberta {{{{ */
-GLint janelaAberta() {
+GLint janelaAberta(void) {
     return janela.executando;
 }/*}}}}*/
 /* FecharJanela {{{{ */
-GLvoid fecharJanela() {
+GLvoid fecharJanela(void) {
     janela.executando = 0;
 }/*}}}}*/
