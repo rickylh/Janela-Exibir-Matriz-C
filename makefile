@@ -12,7 +12,7 @@
 #-----------------------------------------------
 
 # Nome do projeto
-NOME_PROJ=janela
+NOME_PROJ=Janela
 SOURCE_DIR=./src
 INCLUDE_DIR=./include
 LIB_DIR=./lib
@@ -87,6 +87,20 @@ lib: diretorios $(OBJ)
 
 # Recompilar o programa do inicio
 rebuild: clean all
+
+install: lib
+	@ sudo cp -p $(LIB_DIR)/lib$(NOME_PROJ).a /usr/local/lib/
+	@ sudo mkdir -p /usr/local/include/$(NOME_PROJ)
+	@ sudo cp -p -r $(INCLUDE_DIR)/* /usr/local/include/$(NOME_PROJ)/
+	@ sudo ldconfig
+	@ echo "\e[01m\e[01;04;32m$(NOME_PROJ)\e[01;0m instalada.\e[00m"
+
+uninstall:
+	@ sudo rm /usr/local/lib/lib$(NOME_PROJ).a
+	@ sudo rm /usr/local/include/$(NOME_PROJ)/*
+	@ sudo rmdir --ignore-fail-on-non-empty /usr/local/include/$(NOME_PROJ)
+	@ sudo ldconfig
+	@ echo "\e[01m\e[01;04;32m$(NOME_PROJ)\e[01;0m removida.\e[00m"
 
 # Gerar o executavel e executar
 run: all
