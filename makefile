@@ -33,13 +33,13 @@ CC=gcc
 INCLUDE="include"
 
 # Flags para o compilador
-CC_FLAGS=-c         \
-         -g         \
-         -Wall      \
-         -Wextra    \
-         -pedantic-errors \
-         -pedantic \
-         -std=c98 \
+CC_FLAGS=-c                     \
+         -g                     \
+         -Wall                  \
+         -Wextra                \
+         -pedantic-errors       \
+         -pedantic              \
+         -std=c99
 
 # Comando para apagar arquivo não nescessarios
 RM = rm -rf
