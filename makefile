@@ -34,7 +34,7 @@ INCLUDE="include"
 
 # Flags para o compilador
 CC_FLAGS=-c                     \
-         -g                     \
+		 -O                     \
          -Wall                  \
          -Wextra                \
          -pedantic-errors       \
@@ -72,12 +72,12 @@ pastaDeObjetos:
 	@ mkdir -p objetos
 
 # Remover os objetos gerados na compilacao
-clear:
+clean:
 	@ $(RM) ./objetos/* $(PROJ_NAME) *~
 	@ rmdir --ignore-fail-on-non-empty objetos
 
 # Remover os objetos e remover o executavel
-reset: clear
+reset: clean
 	@ $(RM) $(NOME_PROJ)
 
 # Recompilar o programa do inicio
