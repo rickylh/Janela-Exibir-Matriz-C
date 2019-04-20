@@ -12,21 +12,25 @@
 #-----------------------------------------------
 
 # Nome do projeto
-NOME_PROJ=Projeto
+NOME_PROJ=janela
+SOURCE_DIR=./src
+INCLUDE_DIR=./include
+LIB_DIR=./lib
+OBJ_DIR=./objetos
 
 # Arquivos fonte
-C_SOURCE=$(wildcard ./src/*.c)
+C_SOURCE=$(wildcard $(SOURCE_DIR)/*.c)
 
 # Arquivo headers
-H_SOURCE=$(wildcard ./include/*.h)
+H_SOURCE=$(wildcard $(INCLUDE_DIR)/*.h)
 
 # Objetos que serão gerados
-OBJ=$(subst .c,.o,$(subst src,objetos,$(C_SOURCE)))
+OBJ=$(subst .c,.o,$(subst $(SOURCE_DIR),$(OBJ_DIR), $(subst $(SOURCE_DIR)/main.c,,$(C_SOURCE))))
 
-FLAGS=-lSDL2  \
-      -lGL \
-      -lGLEW \
-	  -lpthread \
+FLAGS=-lSDL2  		\
+      -lGL 			\
+      -lGLEW 		\
+	  -lpthread
 
 # Compilador
 CC=gcc
@@ -49,39 +53,40 @@ RM = rm -rf
 #-----------------------------------------------
 
 # Criar os objetos e executavel
-all: pastaDeObjetos $(NOME_PROJ)
+all: diretorios $(NOME_PROJ)
 	@ echo "\e[01mArquivo binario criado: \e[01;04;32m$(NOME_PROJ)\e[00m"
 
 # linkar os objetos e gerar o executavel
-$(NOME_PROJ): $(OBJ)
+$(NOME_PROJ): $(OBJ) $(OBJ_DIR)/main.o
 	@ echo " "
 	@ echo "\e[01mCriando arquivo binario:\e[01;32m $@ \e[00m"
 	@ $(CC) $(FLAGS) $^ -o $@
 
 # Compilar todas as sources
-./objetos/%.o: ./src/%.c ./include/%.h
+$(OBJ_DIR)/%.o: $(SOURCE_DIR)/%.c $(INCLUDE_DIR)/%.h
 	@ echo "Compilando: \e[00;31m $< \e[00m"
 	@ $(CC) $< $(CC_FLAGS) -o $@ -I $(INCLUDE)
 
 # Compilar a main
-./objetos/main.o: ./src/main.c $(H_SOURCE)
+$(OBJ_DIR)/main.o: $(SOURCE_DIR)/main.c $(H_SOURCE)
 	@ echo "Compilando: \e[00;31m $< \e[00m"
 	@ $(CC) $< $(CC_FLAGS) -o $@ -I $(INCLUDE)
 
-pastaDeObjetos:
-	@ mkdir -p objetos
+diretorios:
+	@ mkdir -p $(OBJ_DIR) $(LIB_DIR)
 
 # Remover os objetos gerados na compilacao
 clean:
-	@ $(RM) ./objetos/* $(PROJ_NAME) *~
-	@ rmdir --ignore-fail-on-non-empty objetos
+	@ $(RM) $(NOME_PROJ) $(OBJ_DIR)/*  $(LIB_DIR)/* *~
+	@ rmdir --ignore-fail-on-non-empty $(OBJ_DIR) $(LIB_DIR)
 
-# Remover os objetos e remover o executavel
-reset: clean
-	@ $(RM) $(NOME_PROJ)
+lib: diretorios $(OBJ)
+	@ echo "\e[01mCriando biblioteca estática:\e[01;32m $(NOME_PROJ) \e[00m"
+	@ ar -rcs $(LIB_DIR)/lib$(NOME_PROJ).a $(OBJ)
+	@ echo "\e[01mBiblioteca estática criada: \e[01;04;32m$(NOME_PROJ)\e[00m"
 
 # Recompilar o programa do inicio
-rebuild: reset all
+rebuild: clean all
 
 # Gerar o executavel e executar
 run: all
