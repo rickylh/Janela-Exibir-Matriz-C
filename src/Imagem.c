@@ -44,3 +44,24 @@ void preecherAleatorio(Imagem* img) {
         }
     }
 }
+
+Imagem* abrirImagemPGM(char* path) {
+    FILE *fin  = fopen(path, "r");
+    unsigned int altura, largura, nivel;
+    char type[10] = { 0 };
+    fscanf(fin, "%s", type);   
+    fscanf(fin, "%u %u %u", &largura, &altura, &nivel);   
+    Imagem *img = criarImagem (largura, altura);
+    unsigned int i, j, cor;
+    for (j = 0; j < img->altura; j++) {
+        for (i = 0; i < img->largura; i++) {
+            fscanf(fin, "%u", &cor);
+            img->dados[i][j][0] = (unsigned char)((float)cor / nivel * 255.0f);
+            img->dados[i][j][1] = (unsigned char)((float)cor / nivel * 255.0f);
+            img->dados[i][j][2] = (unsigned char)((float)cor / nivel * 255.0f);
+        }
+    } 
+    fclose(fin);
+    return img;
+}
+

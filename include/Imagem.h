@@ -14,5 +14,6 @@ typedef struct imagem {
 Imagem* criarImagem(unsigned int largura, unsigned int altura);
 void deletarImagem(Imagem* img);
 void preecherAleatorio(Imagem* img);
+Imagem* abrirImagemPGM(char* path);
 
 #endif /* __IMAGEM__ */
