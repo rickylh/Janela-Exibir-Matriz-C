@@ -1,5 +1,5 @@
 # **********************************************
-# * Makefile para programas escritos em C++   **
+# * Makefile para programas escritos em C     **
 # * Utilizando SDL2 e OpenGL                  **
 # *                                           **
 # *  Autor: Ricky Lemes Habegger              **
